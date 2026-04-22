@@ -1,0 +1,118 @@
+Roblox için Delta/Solara/Fluxus gibi executor'larda çalışacak, Lua dilinde
+yazılmış, tam teşekküllü bir hile menüsü (GUI) scripti yaz.
+
+=== GENEL YAPI ===
+- Kütüphane olarak Rayfield, Orion veya Kavo UI Library kullan
+- Sürüklenebilir, açılıp kapanabilen modern bir GUI olsun
+- Keybind ile toggle (örn. RightControl ile menüyü aç/kapa)
+- Her özellik ayrı bir tab/sekme altında organize edilsin
+- Config kaydetme/yükleme sistemi olsun
+- Oyun evrensel (universal) çalışsın, mümkünse oyun tespiti yapsın
+
+=== SEKMELER VE ÖZELLİKLER ===
+
+[TAB 1: COMBAT / SAVAŞ]
+- Silent Aim (en yakın düşmana otomatik nişan, FOV ayarlı)
+- Aimbot (hedef kilitlenir, kafa/gövde seçimi, smoothness ayarı)
+  - Aimbot FOV dairesi (ekranda görünsün, boyut slider ile ayarlansın)
+  - Hedef kısım seçimi: Head / HumanoidRootPart / Torso
+  - Prediction (hareket tahmini) özelliği
+  - Aim Smoothness slider (1-10 arası)
+  - Takım kontrolü (Team Check toggle)
+  - Duvar arkası hedefleme (Wall Check toggle)
+- Triggerbot (crosshair düşman üstündeyken otomatik ateş)
+- Hit Chance (isabet oranı yüzdelik slider %1-100)
+- Reach/Hitbox Expander (hitbox genişletme, slider ile boyut ayarı)
+
+[TAB 2: VISUALS / ESP]
+- ESP Box (2D kutu, düşmanları çerçeve ile göster)
+  - Kutu rengi seçimi (takıma göre veya özel renk)
+  - Kutu kalınlığı ayarı
+- ESP İsim etiketi (oyuncu adı başın üstünde)
+- ESP Sağlık barı (health bar, kutunun yanında)
+- ESP Mesafe gösterimi (kaç stud uzaklıkta yazsın)
+- ESP Tracer çizgileri (ekranın altından düşmana çizgi)
+  - Tracer başlangıç noktası: Alt/Orta/Üst
+- Skeleton/Kemik ESP (eklem noktalarını birleştiren çizgiler)
+- Chams / Highlight (düşmanları duvar arkasından renkli göster)
+  - Fill rengi ve saydamlık ayarı
+  - Outline rengi ayarı
+- Item ESP (yerdeki önemli itemleri göster)
+- NPC ESP
+
+[TAB 3: MOVEMENT / HAREKET]
+- Speed hack (WalkSpeed slider 16-500 arası)
+  - CFrame tabanlı speed (anti-kick için)
+- Fly (uçma, hız ayarlı)
+  - Fly Speed slider
+  - Noclip ile entegre çalışsın
+- Noclip (duvarlardan geçme)
+- Infinite Jump (sınırsız zıplama)
+- Bunny Hop (otomatik zıplama)
+- Teleport (oyuncuya ışınlanma, listeden seç)
+- HighJump (yüksek zıplama, JumpPower slider)
+- Long Jump
+- Spider (duvarda yürüme)
+
+[TAB 4: PLAYER / OYUNCU]
+- God Mode (varsa, sağlık manipülasyonu)
+- Anti-Void (boşluğa düşmekten koruma)
+- Anti-AFK (oyundan atılmayı engelle)
+- Anti-Ragdoll
+- Karakter boyutu değiştirme
+- FOV Changer (kamera görüş açısı slider)
+- Freecam (serbest kamera, keybind ile)
+- Fullbright (karanlık haritaları aydınlat)
+- No Fog (sisi kaldır)
+- No Shadows
+
+[TAB 5: WORLD / DÜNYA]
+- Gravity değiştirme (slider)
+- Zaman değiştirme (ClockTime slider)
+- Hava durumu kaldırma
+- Brickcolor/Material changer
+- Map silme (belirli parçaları kaldır)
+
+[TAB 6: TELEPORT]
+- Oyuncu listesi (tüm oyuncuları listele, birine tıkla → ışınlan)
+- Waypoint sistemi (koordinat kaydet/yükle/ışınlan)
+- Server hop (başka sunucuya geç)
+- Rejoin (sunucuya yeniden bağlan)
+
+[TAB 7: MISC / DİĞER]
+- Chat Spammer (mesaj + gecikme ayarlı)
+- FPS Boost (gereksiz efektleri kaldır)
+- FPS göstergesi
+- Oyuncu bilgi paneli (seçili oyuncunun bilgileri)
+- Script Hub (popüler scriptleri yükle)
+- Executor tespiti ve uyumluluk bilgisi
+
+=== TEKNİK GEREKSINIMLER ===
+1. Tüm ESP çizimleri Drawing API ile yapılsın (Drawing.new)
+2. RenderStepped bağlantısı ile güncelleme yapılsın
+3. Oyuncular oyuna girip çıktığında otomatik güncelle
+4. Performans odaklı olsun (gereksiz döngülerden kaçın)
+5. Hata yakalama (pcall/xpcall) kullanılsın
+6. Oyuncu öldüğünde/respawn ettiğinde bağlantıları yenile
+7. Script kapatıldığında tüm bağlantıları temizle (cleanup)
+8. getgenv() ile global değişken çakışmasını önle
+9. Humanoid, Character nil kontrollerini yap
+
+=== KOD STANDARTLARI ===
+- Kodun başına açıklama (script adı, versiyon, tuş bilgileri)
+- Her fonksiyon yorum satırı ile açıklanmış olsun
+- Değişken isimleri anlaşılır olsun
+- Modüler yapı (her özellik kendi fonksiyonunda)
+- Minimum 800 satır olsun, eksik bırakma, "..." yazma, kısaltma yapma
+- Tüm kodu tek seferde, çalışır halde, eksiksiz ver
+
+=== ÖNCELİK SIRASI ===
+Eğer çok uzun olacaksa önce şunları yaz:
+1. GUI Framework + Tab yapısı
+2. ESP sistemi (Box, Name, Health, Distance, Tracer)
+3. Aimbot + Silent Aim
+4. Movement (Speed, Fly, Noclip)
+5. Diğer özellikler
+
+Scriptin tamamını Lua olarak, tek kod bloğunda ver.
+Hiçbir bölümü "burayı kendiniz tamamlayın" şeklinde bırakma.

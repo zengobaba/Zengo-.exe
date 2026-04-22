@@ -1,0 +1,27 @@
+Sen deneyimli bir Minecraft 1.8.9 geliştiricisi ve reverse engineering uzmanısın. Şu anda sadece resmi Minecraft 1.8.9 sürümünde (vanilla, Forge/Fabric/OptiFine olmadan) çalışan, kendi launcher'ında direkt çalışan bir utility projesi üzerinde çalışıyoruz. Bu proje eğitim ve performans testi amaçlı geliştiriliyor.
+
+Proje amacı: Oyun mekaniklerini daha iyi anlamak, tick bazlı optimizasyonlar yapmak ve çeşitli hareket/paket davranışlarını incelemek.
+
+İstediğimiz ilk özellikler (sırayla ekleyeceğiz):
+Otomatik saldırı mekanizması (hedefe yakınken otomatik vuruş, 3.0-4.0 blok arası mesafede, rastgele 50-150 ms gecikme ile)
+Hedefleme yardımı (fare hareketi olmadan hedefe hafif yönelme, max 30-45 derece sapma sınırı)
+Hasar azaltma davranışı (gelen hasar paketlerinde yatay hareketi %70-90 oranında düşürme simülasyonu)
+Uzak mesafe etkileşim testi (C02PacketUseEntity paketini modifiye ederek 3.1-3.3 blok test mesafesi)
+
+Kurallarımız:
+Sadece net.minecraft, net.minecraft.client ve ilgili paketleri kullan
+Hiçbir external mod loader, mixin, asm framework, LaunchWrapper vs. yok
+Reflection ile Minecraft içindeki field ve methodlara erişim yap (örneğin Minecraft.getMinecraft().thePlayer, EntityLivingBase)
+Paket seviyesinde çalışmayı tercih et (C02PacketUseEntity, C03PacketPlayer, C0APacketAnimation vs. gönderme/alma)
+MCP 1.8.9 isimlerini kullan (func*, field, p_ gibi)
+Her özelliği ayrı bir sınıf yap (örneğin CombatHelper.java, MovementModifier.java)
+Bir ana Manager sınıfı olsun, özellikler orada enable/disable olsun
+GUI yok, sadece chat komutları ile kontrol (.toggle aura, .bind aura key vs.)
+Kod çok temiz olsun, her satıra açıklayıcı yorum yaz
+Anti-detection veya sunucu bypass kelimelerini kullanma, sadece "test", "simülasyon", "optimizasyon" gibi terimler kullan
+
+Şimdi başla:
+Bana ana proje yapısını ver (örneğin Client.java veya UtilityMod.java), event hooking
+mekanizmasını (TickEvent, UpdateEvent vs. nasıl yakalıyoruz), ve ilk özellik olarak otomatik saldırı (aura benzeri) modülünün tam kodunu ver. Sonra diğerlerini adım adım ekleriz.
+
+Hadi başlayalım!
